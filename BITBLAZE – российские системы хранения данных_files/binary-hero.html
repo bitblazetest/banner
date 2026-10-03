@@ -1,0 +1,154 @@
+<div id="binary-server-visual" aria-label="Исходный баннер BITBLAZE с анимированным сервером из двоичного кода">
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: transparent; }
+    #binary-server-visual {
+      width: 100%;
+      background: transparent;
+      --bb-server-mask: url('./binary-server-mask.png');
+    }
+    #binary-server-visual .bb-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 1;
+      overflow: hidden;
+      background: #020202;
+    }
+    #binary-server-visual .bb-original {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+    #binary-server-visual canvas {
+      position: absolute;
+      left: 13.7%;
+      top: 35%;
+      width: 73.7%;
+      height: 65%;
+      display: block;
+    }
+    #binary-server-visual canvas {
+      z-index: 2;
+      -webkit-mask: var(--bb-server-mask) center / 100% 100% no-repeat;
+      mask: var(--bb-server-mask) center / 100% 100% no-repeat;
+    }
+  </style>
+
+  <div class="bb-frame">
+    <canvas role="img" aria-label="Сервер целиком из повторяющихся букв названия BITBLAZE; буквы слегка перестраиваются"></canvas>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('binary-server-visual');
+      const canvas = root.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const glyphs = Array.from('BITBLAZE');
+      const loopDuration = 10000;
+      let cells = [], width = 0, height = 0, lastFrame = -40;
+
+      function hash(n) {
+        n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+        n = Math.imul(n ^ (n >>> 16), 0x45d9f3b);
+        return (n ^ (n >>> 16)) >>> 0;
+      }
+
+      function build() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = Math.min(devicePixelRatio || 1, 1.5);
+        width = Math.round(rect.width);
+        height = Math.round(rect.height);
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const size = Math.max(5, Math.min(8, width / 178));
+        const stepX = size * .66;
+        const stepY = size * .72;
+        cells = [];
+        for (let y = stepY * .5, row = 0; y < height; y += stepY, row++) {
+          for (let x = stepX * .5, col = 0; x < width; x += stepX, col++) {
+            const seed = hash(row * 4099 + col * 131);
+            const nx = x / width;
+            const ny = y / height;
+            const dx = (nx - .5) / .19;
+            const dy = (ny - .685) / .27;
+            const logoStrength = Math.exp(-(dx * dx + dy * dy) * 1.15);
+            const densityNoise = ((seed >>> 8) % 1000) / 1000;
+            const logoDense = densityNoise < logoStrength * .72;
+            const logoMedium = !logoDense && densityNoise < logoStrength;
+            cells.push({
+              x, y, row, col, seed,
+              glyph: (col + row * 3) % glyphs.length,
+              logoStrength,
+              logoDense,
+              logoMedium,
+              depth: .28 + ((seed >>> 15) % 720) / 1000,
+              phase: (seed % 628) / 100,
+              flipRate: 8 + ((seed >>> 4) % 24)
+            });
+          }
+        }
+      }
+
+      function render(time = 0) {
+        if (!reduced && time - lastFrame < 33) {
+          requestAnimationFrame(render);
+          return;
+        }
+        lastFrame = time;
+        ctx.clearRect(0, 0, width, height);
+        const size = Math.max(5, Math.min(8, width / 178));
+        ctx.font = `500 ${size}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const loopTime = time % loopDuration;
+        const angle = (loopTime / loopDuration) * Math.PI * 2;
+        for (const cell of cells) {
+          const motion = 1 - cell.logoStrength * .82;
+          const depthEffect = 1 - cell.logoStrength;
+          const oldParallax = .55 + cell.depth * .65;
+          const deepParallax = .38 + cell.depth * .95;
+          const parallax = oldParallax + (deepParallax - oldParallax) * depthEffect;
+          const depthOffsetX = (cell.depth - .55) * 1.1 * depthEffect;
+          const depthOffsetY = (cell.depth - .55) * -.7 * depthEffect;
+          const driftX = reduced ? depthOffsetX : depthOffsetX + Math.sin(angle + cell.phase * 1.7) * .58 * motion * parallax;
+          const driftY = reduced ? depthOffsetY : depthOffsetY + Math.cos(angle * 2 + cell.phase) * .74 * motion * parallax;
+          const pulse = reduced ? 0 : Math.sin(angle * 3 + cell.phase * 2.3) * .075 * motion;
+          const pattern = (Math.floor(cell.col / 9) + Math.floor(cell.row / 7)) % 4;
+          const baseAlpha = pattern === 0 ? 1 : pattern === 1 ? .92 : pattern === 2 ? .84 : .96;
+          const oldDepthAlpha = .58 + cell.depth * .42;
+          const deepDepthAlpha = .32 + cell.depth * .68;
+          const depthAlpha = oldDepthAlpha + (deepDepthAlpha - oldDepthAlpha) * depthEffect;
+          const alpha = Math.max(.32, Math.min(1, (baseAlpha + (1 - baseAlpha) * cell.logoStrength + pulse) * depthAlpha));
+          const gradientPosition = Math.max(0, Math.min(1, (cell.y / height - .2) / .8));
+          const greenMix = gradientPosition * gradientPosition;
+          const red = Math.round(255 + (66 - 255) * greenMix);
+          const green = Math.round(255 + (179 - 255) * greenMix);
+          const blue = Math.round(255 + (80 - 255) * greenMix);
+          const glyphShift = cell.logoDense || reduced ? 0 : Math.floor((Math.sin(angle * 2 + cell.phase) + 1) * 1.5);
+          const glyph = glyphs[(cell.glyph + glyphShift) % glyphs.length];
+          const extrusionThreshold = .78 - .2 * depthEffect;
+          if (cell.depth > extrusionThreshold) {
+            const deepExtrusion = .7 + cell.depth * 1.25;
+            const extrusion = 1.35 + (deepExtrusion - 1.35) * depthEffect;
+            const extrusionAlpha = .13 + ((.08 + cell.depth * .1) - .13) * depthEffect;
+            ctx.fillStyle = `rgba(${red},${green},${blue},${alpha * extrusionAlpha})`;
+            ctx.fillText(glyph, cell.x + driftX + extrusion, cell.y + driftY + 1.1 + (extrusion * .72 - 1.1) * depthEffect);
+          }
+          ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
+          ctx.shadowBlur = 0;
+          ctx.fillText(glyph, cell.x + driftX, cell.y + driftY);
+        }
+        if (!reduced) requestAnimationFrame(render);
+      }
+
+      build();
+      render();
+      new ResizeObserver(() => { build(); render(); }).observe(root.querySelector('.bb-frame'));
+    })();
+  </script>
+</div>

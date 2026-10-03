@@ -1,0 +1,164 @@
+@font-face{
+  font-family:'IBM Plex Sans Local';
+  src:url('./ibm-plex-sans-cyrillic.woff2') format('woff2');
+  font-style:normal;
+  font-weight:300 700;
+  font-display:swap;
+}
+
+/*
+Theme Name: Impreza дочерняя тема
+Template: Impreza
+
+Theme URI: https://pdnx.ru/
+Description: Дочерняя тема для темы Impreza
+Author: Кирилл Чулыгин
+Author URI: https://pdnx.ru/
+Version: 1.01
+*/
+
+@import url("../Impreza/style.css");
+
+#pfilters{
+	float:left;
+	width:100%;
+	padding:0 0 20px 0;
+	color:black;
+}
+
+#pfilters select{
+	width:auto;
+	margin:0 25px 20px 0;
+	padding:0 15px 0 0;
+	color:black;
+	height:32px;
+	box-shadow:none;
+	border:0;
+	outline:0;
+	line-height:normal;
+	cursor:pointer;
+	background-color:transparent;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	select{
+		-webkit-appearance: none;
+		padding-right: 15px;
+		background-image: url('images/selectarrow.png');
+		background-repeat: no-repeat;
+		background-position: center right;
+	}
+}
+
+#pfilters select option{
+	background-color:white;
+	color:black;
+}
+
+#pfilters select option:disabled{
+	color:grey;
+}
+
+#pfilters .selected .f{
+	display:inline-block;
+	vertical-align:top;
+	height:28px;
+	padding:0 27px 0 12px;
+	border-radius:28px;
+	color:white;
+	line-height:28px;
+	cursor:pointer;
+	background-color:#5d6163;
+	font-size:14px;
+	font-weight:bold;
+	margin:0 10px 0 0;
+	position:relative;
+}
+
+#pfilters .selected .f span{
+	display:table;
+	width:13px;
+	height:13px;
+	border:1px solid #00d422;
+	border-radius:13px;
+	top:7px;
+	right:7px;
+	position:absolute;
+	background:url('images/closetag.png') center center no-repeat;
+}
+
+@media screen and (max-width: 1023px) {
+	#pfilters{
+		text-align:center;
+	}
+	#pfilters select{
+		margin:0 10px 10px 10px;
+	}
+	#pfilters .selected{
+		padding-top:10px;
+	}
+	#pfilters .selected .f{
+		margin:0 5px 5px 5px;
+	}
+	#pfilters select option{
+		background-color:white;
+		color:black;
+	}
+	#pfilters select option:disabled{
+		color:grey;
+	}
+}
+
+h1{
+	font-family: 'IBM Plex Sans', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 36px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.01em !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Reliable local replacement for the saved Revolution Slider hero. */
+.bb-hero{position:relative;left:50%;transform:translateX(-50%);width:100vw;max-width:none;height:31.5vw;min-height:360px;max-height:600px;overflow:hidden;background:#fff;font-family:'IBM Plex Sans',sans-serif}
+.bb-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .65s ease;overflow:hidden}
+.bb-slide.is-active{opacity:1;visibility:visible;z-index:2}
+.bb-slide-brand{background:#000;color:#fff}
+.bb-brand-bg{position:absolute;z-index:0;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.bb-brand-text-image,.bbp-text-image{position:absolute;z-index:4;top:54px;left:50%;width:742px;max-width:calc(100% - 40px);height:auto;transform:translateX(-50%);display:block}
+@media(max-width:778px){.bb-brand-text-image,.bbp-text-image{top:24px;width:calc(100% - 28px);max-width:520px}}
+.bb-binary-animation{position:absolute;z-index:1;inset:0;width:100%;height:100%;border:0;pointer-events:none;background:transparent;display:block}
+.bb-slide-brand iframe.bb-binary-animation{display:none}
+.bb-binary-inline{position:absolute;z-index:2;inset:0;pointer-events:none;overflow:hidden}
+.bb-binary-inline canvas{position:absolute;left:13.7%;top:35%;width:73.7%;height:65%;display:block;opacity:0;transition:opacity .3s ease-out;-webkit-mask:url('./binary-server-mask.png') center/100% 100% no-repeat;mask:url('./binary-server-mask.png') center/100% 100% no-repeat}
+.bb-binary-inline canvas.is-ready{opacity:1}
+.bb-hero>.bb-arrow,.bb-hero>.bb-dots{display:none!important}
+.bb-brand-copy{position:absolute;z-index:3;top:54px;left:50%;transform:translateX(-50%);width:min(724px,74%);color:#fff}
+.bb-brand-copy b{position:absolute;right:0;top:0;font-size:15px;line-height:1;font-weight:600}
+.bb-brand-copy h2{color:#fff!important;font-size:56px!important;line-height:1!important;font-weight:700!important;margin:4px 0 0!important;white-space:nowrap;letter-spacing:-.7px!important}
+.bb-brand-copy p{color:#fff;font-size:12px;font-weight:300;line-height:1.25;margin:0;max-width:430px}
+.bb-brand-copy p{max-width:520px}
+.bb-brand-copy h2{padding:0!important}
+.l-header,.l-subheader.at_middle{height:63px!important}
+.l-main>.l-section:first-child>.l-section-h{padding-top:63px!important}
+.bb-slide-sirius{background:#fff}
+.bb-fast-lines{position:absolute;left:50%;top:50%;width:920px;height:800px;object-fit:contain;transform:translate(-50%,-50%)}
+.bb-sirius-copy{position:absolute;z-index:2;top:43px;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.bb-sirius-copy h2{font-size:52px!important;line-height:1!important;font-weight:700!important;margin:0 0 18px!important;color:#1a1a1a!important}
+.bb-sirius-copy p{font-size:20px;font-weight:500;margin:0 0 16px;color:#1a1a1a}
+.bb-sirius-copy img{width:328px;height:auto}
+.bb-server{position:absolute;z-index:1;left:50%;top:185px;transform:translateX(-50%);width:520px;height:345px;object-fit:contain}
+.bb-hero-button{position:absolute;z-index:4;left:50%;bottom:40px;transform:translateX(-50%);display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:10px;background:#52e068;color:#1a1a1a!important;font-size:16px;font-weight:500;text-decoration:none!important}
+.bb-slide-power{background:#fdfdfe}
+.bb-power-title{position:absolute;z-index:2;left:50%;top:30px;transform:translateX(-50%);width:552px;height:164px;object-fit:contain}
+.bb-power-hand{position:absolute;left:50%;bottom:-47px;transform:translateX(-50%);width:632px;height:647px;object-fit:contain}
+.bb-arrow{position:absolute;z-index:8;bottom:18px;width:36px;height:36px;border:0;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;font-size:27px;line-height:32px;cursor:pointer}
+.bb-prev{right:68px}.bb-next{right:20px}
+.bb-dots{position:absolute;z-index:8;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.bb-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:#e5e5e5;cursor:pointer}
+.bb-dots button.is-active{background:#52e068}
+@media(max-width:778px){.bb-hero{height:480px;min-height:480px}.bb-brand-copy{top:44px;width:86%}.bb-brand-copy h2{font-size:42px!important}.bb-brand-copy p{font-size:12px}.bb-sirius-copy{top:58px}.bb-sirius-copy h2{font-size:45px!important}.bb-server{top:200px;width:540px}.bb-power-title{width:500px}.bb-power-hand{width:600px}.bb-arrow{display:none}}
+@media(max-width:480px){.bb-hero{height:405px;min-height:405px}.bb-brand-copy{top:30px;width:calc(100% - 40px);left:20px;transform:none}.bb-brand-copy b{right:0;font-size:16px}.bb-brand-copy p{font-size:10px;line-height:1.55;padding-top:20px;max-width:340px}.bb-brand-copy h2{font-size:clamp(26px,6.8vw,34px)!important;line-height:1.05!important;margin-top:14px!important;white-space:nowrap;letter-spacing:-.5px!important}.bb-binary-animation{left:50%;top:38px;width:1100px;height:367px;transform:translateX(-50%)}.bb-sirius-copy{top:32px}.bb-sirius-copy h2{font-size:34px!important;margin-bottom:12px!important}.bb-sirius-copy p{font-size:14px;margin-bottom:12px}.bb-sirius-copy img{width:208px}.bb-fast-lines{width:466px;height:405px}.bb-server{top:135px;width:330px;height:220px}.bb-hero-button{bottom:34px;min-height:41px;font-size:10px;padding:0 18px}.bb-power-title{top:20px;width:353px;height:105px}.bb-power-hand{bottom:-18px;width:408px;height:418px}.bb-dots{bottom:13px}.bb-slide-brand~.bb-arrow{display:block;bottom:18px;width:auto;height:auto;background:none;font-size:44px}.bb-prev{right:88px}.bb-next{right:28px}}
+
+html,body,button,input,select,textarea,
+.l-header,.l-header *,.l-main,.l-main *,.l-footer,.l-footer *,.w-nav,.w-btn,
+.bb-hero,.bb-hero *{font-family:'IBM Plex Sans Local','IBM Plex Sans',sans-serif!important}
